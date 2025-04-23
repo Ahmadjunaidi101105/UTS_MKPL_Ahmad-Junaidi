@@ -1,3 +1,4 @@
+
 public class PersonalInfo {
     private final String namaLengkap;
     private final String alamat;
@@ -13,25 +14,11 @@ public class PersonalInfo {
         this.jenisKelamin = jenisKelamin;
     }
 
-    public String getNamaLengkap() {
-        return namaLengkap;
-    }
-
-    public String getAlamat() {
-        return alamat;
-    }
-
-    public String getNomorTelepon() {
-        return nomorTelepon;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getJenisKelamin() {
-        return jenisKelamin;
-    }
+    public String getNamaLengkap() { return namaLengkap; }
+    public String getAlamat() { return alamat; }
+    public String getNomorTelepon() { return nomorTelepon; }
+    public String getEmail() { return email; }
+    public String getJenisKelamin() { return jenisKelamin; }
 
     @Override
     public String toString() {

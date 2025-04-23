@@ -13,14 +13,14 @@ public final class LibraryMember {
     private final String referralCode;
     private final boolean isNewsletterSubscribed;
 
-    // Package-private constructor, hanya bisa diakses oleh Builder
-    LibraryMember(PersonalInfo personalInfo, String memberId, Date joinDate, 
-                MembershipLevel membershipLevel, boolean isActive, int borrowedBooksCount,
-                int lateReturnsCount, int fineAmount, int loyaltyPoints,
-                String referralCode, boolean isNewsletterSubscribed) {
+    LibraryMember(PersonalInfo personalInfo, String memberId, Date joinDate,
+                  MembershipLevel membershipLevel, boolean isActive,
+                  int borrowedBooksCount, int lateReturnsCount, int fineAmount,
+                  int loyaltyPoints, String referralCode, boolean isNewsletterSubscribed) {
+
         this.personalInfo = personalInfo;
         this.memberId = memberId;
-        this.joinDate = new Date(joinDate.getTime()); // Defensive copy
+        this.joinDate = new Date(joinDate.getTime()); // defensive copy
         this.membershipLevel = membershipLevel;
         this.isActive = isActive;
         this.borrowedBooksCount = borrowedBooksCount;
@@ -31,10 +31,9 @@ public final class LibraryMember {
         this.isNewsletterSubscribed = isNewsletterSubscribed;
     }
 
-    // Getter methods
     public PersonalInfo getPersonalInfo() { return personalInfo; }
     public String getMemberId() { return memberId; }
-    public Date getJoinDate() { return new Date(joinDate.getTime()); } // Defensive copy
+    public Date getJoinDate() { return new Date(joinDate.getTime()); }
     public MembershipLevel getMembershipLevel() { return membershipLevel; }
     public boolean isActive() { return isActive; }
     public int getBorrowedBooksCount() { return borrowedBooksCount; }

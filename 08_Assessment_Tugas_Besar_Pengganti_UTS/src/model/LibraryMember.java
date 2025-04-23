@@ -1,13 +1,8 @@
 import java.util.Date;
-import java.util.Calendar;
 
 public class LibraryMember {
 
-    private String namaLengkap;
-    private String alamat;
-    private String nomorTelepon;
-    private String email;
-    private String jenisKelamin;
+    private PersonalInfo personalInfo;
     private String kodeAnggota;
     private Date tanggalGabung;
     private boolean statusAktif;
@@ -19,17 +14,13 @@ public class LibraryMember {
     private String kodeReferal;
     private boolean langgananBuletin;
 
-    public LibraryMember(String namaLengkap, String alamat, String nomorTelepon, String email, String jenisKelamin,
-            String kodeAnggota, Date tanggalGabung, boolean statusAktif,
-            String tingkatKeanggotaan, int jumlahBukuDipinjam,
-            int jumlahTerlambat, int jumlahDenda, int poinLoyalitas,
-            String kodeReferal, boolean langgananBuletin) {
+    public LibraryMember(PersonalInfo personalInfo,
+                         String kodeAnggota, Date tanggalGabung, boolean statusAktif,
+                         String tingkatKeanggotaan, int jumlahBukuDipinjam,
+                         int jumlahTerlambat, int jumlahDenda, int poinLoyalitas,
+                         String kodeReferal, boolean langgananBuletin) {
 
-        this.namaLengkap = namaLengkap;
-        this.alamat = alamat;
-        this.nomorTelepon = nomorTelepon;
-        this.email = email;
-        this.jenisKelamin = jenisKelamin;
+        this.personalInfo = personalInfo;
         this.kodeAnggota = kodeAnggota;
         this.tanggalGabung = tanggalGabung;
         this.statusAktif = statusAktif;
@@ -44,11 +35,11 @@ public class LibraryMember {
 
     public void cetakProfilLengkap() {
         System.out.println("===== PROFIL ANGGOTA =====");
-        System.out.println("Nama         : " + namaLengkap);
-        System.out.println("Jenis Kelamin: " + jenisKelamin);
-        System.out.println("Alamat       : " + alamat);
-        System.out.println("Telepon      : " + nomorTelepon);
-        System.out.println("Email        : " + email);
+        System.out.println("Nama         : " + personalInfo.getNamaLengkap());
+        System.out.println("Jenis Kelamin: " + personalInfo.getJenisKelamin());
+        System.out.println("Alamat       : " + personalInfo.getAlamat());
+        System.out.println("Telepon      : " + personalInfo.getNomorTelepon());
+        System.out.println("Email        : " + personalInfo.getEmail());
         System.out.println("Kode Anggota : " + kodeAnggota);
         System.out.println("Tanggal Gabung: " + tanggalGabung);
         System.out.println("Status Aktif : " + statusAktif);
@@ -64,17 +55,8 @@ public class LibraryMember {
         System.out.println("===========================");
     }
 
-    public void langgananBuletinPerpustakaan() {
-    }
-
-    public void gunakanKodeReferal(String kode) {
-    }
-
     public boolean periksaKelayakanUpgrade() {
-        if (tingkatKeanggotaan.equals("DASAR") && poinLoyalitas > 100) {
-            return true;
-        }
-        return false;
+        return tingkatKeanggotaan.equals("DASAR") && poinLoyalitas > 100;
     }
 
     public double hitungSkorRisiko() {

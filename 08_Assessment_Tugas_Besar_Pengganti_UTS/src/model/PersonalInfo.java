@@ -1,9 +1,9 @@
 public class PersonalInfo {
-    private String namaLengkap;
-    private String alamat;
-    private String nomorTelepon;
-    private String email;
-    private String jenisKelamin;
+    private final String namaLengkap;
+    private final String alamat;
+    private final String nomorTelepon;
+    private final String email;
+    private final String jenisKelamin;
 
     public PersonalInfo(String namaLengkap, String alamat, String nomorTelepon, String email, String jenisKelamin) {
         this.namaLengkap = namaLengkap;
@@ -31,5 +31,14 @@ public class PersonalInfo {
 
     public String getJenisKelamin() {
         return jenisKelamin;
+    }
+
+    @Override
+    public String toString() {
+        return "Nama: " + namaLengkap +
+               "\nJenis Kelamin: " + jenisKelamin +
+               "\nAlamat: " + alamat +
+               "\nTelepon: " + nomorTelepon +
+               "\nEmail: " + email;
     }
 }

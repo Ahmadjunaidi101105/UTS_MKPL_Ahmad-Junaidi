@@ -1,122 +1,139 @@
 import java.util.Date;
 
 public class LibraryMember {
+    private final PersonalInfo personalInfo;
+    private final String memberId;
+    private final Date joinDate;
+    private boolean isActive;
+    private MembershipLevel membershipLevel;
+    private int borrowedBooksCount;
+    private int lateReturnsCount;
+    private int fineAmount;
+    private int loyaltyPoints;
+    private String referralCode;
+    private boolean isNewsletterSubscribed;
 
-    private PersonalInfo personalInfo;
-    private String kodeAnggota;
-    private Date tanggalGabung;
-    private boolean statusAktif;
-    private String tingkatKeanggotaan;
-    private int jumlahBukuDipinjam;
-    private int jumlahTerlambat;
-    private int jumlahDenda;
-    private int poinLoyalitas;
-    private String kodeReferal;
-    private boolean langgananBuletin;
+    public enum MembershipLevel {
+        BASIC, STANDARD, PREMIUM
+    }
 
-    public LibraryMember(PersonalInfo personalInfo,
-                         String kodeAnggota, Date tanggalGabung, boolean statusAktif,
-                         String tingkatKeanggotaan, int jumlahBukuDipinjam,
-                         int jumlahTerlambat, int jumlahDenda, int poinLoyalitas,
-                         String kodeReferal, boolean langgananBuletin) {
-
+    public LibraryMember(PersonalInfo personalInfo, String memberId, Date joinDate, 
+                        boolean isActive, MembershipLevel membershipLevel, 
+                        int borrowedBooksCount, int lateReturnsCount, int fineAmount, 
+                        int loyaltyPoints, String referralCode, 
+                        boolean isNewsletterSubscribed) {
         this.personalInfo = personalInfo;
-        this.kodeAnggota = kodeAnggota;
-        this.tanggalGabung = tanggalGabung;
-        this.statusAktif = statusAktif;
-        this.tingkatKeanggotaan = tingkatKeanggotaan;
-        this.jumlahBukuDipinjam = jumlahBukuDipinjam;
-        this.jumlahTerlambat = jumlahTerlambat;
-        this.jumlahDenda = jumlahDenda;
-        this.poinLoyalitas = poinLoyalitas;
-        this.kodeReferal = kodeReferal;
-        this.langgananBuletin = langgananBuletin;
+        this.memberId = memberId;
+        this.joinDate = new Date(joinDate.getTime()); // Defensive copy
+        this.isActive = isActive;
+        this.membershipLevel = membershipLevel;
+        this.borrowedBooksCount = borrowedBooksCount;
+        this.lateReturnsCount = lateReturnsCount;
+        this.fineAmount = fineAmount;
+        this.loyaltyPoints = loyaltyPoints;
+        this.referralCode = referralCode;
+        this.isNewsletterSubscribed = isNewsletterSubscribed;
     }
 
-    public void cetakProfilLengkap() {
-        System.out.println("===== PROFIL ANGGOTA =====");
-        System.out.println("Nama         : " + personalInfo.getNamaLengkap());
-        System.out.println("Jenis Kelamin: " + personalInfo.getJenisKelamin());
-        System.out.println("Alamat       : " + personalInfo.getAlamat());
-        System.out.println("Telepon      : " + personalInfo.getNomorTelepon());
-        System.out.println("Email        : " + personalInfo.getEmail());
-        System.out.println("Kode Anggota : " + kodeAnggota);
-        System.out.println("Tanggal Gabung: " + tanggalGabung);
-        System.out.println("Status Aktif : " + statusAktif);
-        System.out.println("Tingkat      : " + tingkatKeanggotaan);
-        System.out.println("Buku Dipinjam: " + jumlahBukuDipinjam);
-        System.out.println("Terlambat    : " + jumlahTerlambat);
-        System.out.println("Denda        : Rp " + jumlahDenda);
-        System.out.println("Poin         : " + poinLoyalitas);
-        System.out.println("Kode Referal : " + kodeReferal);
-        System.out.println("Langganan Buletin: " + langgananBuletin);
-        System.out.println("Skor Risiko : " + hitungSkorRisiko());
-        System.out.println("Layak Upgrade?: " + periksaKelayakanUpgrade());
-        System.out.println("===========================");
+    public boolean isEligibleForUpgrade() {
+        return membershipLevel == MembershipLevel.BASIC && loyaltyPoints > 100;
     }
 
-    public boolean periksaKelayakanUpgrade() {
-        return tingkatKeanggotaan.equals("DASAR") && poinLoyalitas > 100;
+    public double calculateRiskScore() {
+        double score = 0;
+        score += lateReturnsCount * 1.5;
+        score += fineAmount * 0.1;
+        
+        if (!isActive) {
+            score += 5;
+        }
+        
+        if (membershipLevel == MembershipLevel.BASIC) {
+            score += 2;
+        }
+        
+        if (borrowedBooksCount > 50) {
+            score -= 1.5;
+        }
+        
+        return score;
     }
 
-    public double hitungSkorRisiko() {
-        double skor = 0;
-        skor += jumlahTerlambat * 1.5;
-        skor += jumlahDenda * 0.1;
-        if (!statusAktif)
-            skor += 5;
-        if (tingkatKeanggotaan.equals("DASAR"))
-            skor += 2;
-        if (jumlahBukuDipinjam > 50)
-            skor -= 1.5;
-        return skor;
+    // Getter methods
+    public PersonalInfo getPersonalInfo() {
+        return personalInfo;
     }
 
-    public int getJumlahBukuDipinjam() {
-        return jumlahBukuDipinjam;
+    public String getMemberId() {
+        return memberId;
     }
 
-    public void setJumlahBukuDipinjam(int b) {
-        jumlahBukuDipinjam = b;
+    public Date getJoinDate() {
+        return new Date(joinDate.getTime()); // Defensive copy
     }
 
-    public int getJumlahTerlambat() {
-        return jumlahTerlambat;
+    public boolean isActive() {
+        return isActive;
     }
 
-    public void setJumlahTerlambat(int t) {
-        jumlahTerlambat = t;
+    public MembershipLevel getMembershipLevel() {
+        return membershipLevel;
     }
 
-    public int getJumlahDenda() {
-        return jumlahDenda;
+    public int getBorrowedBooksCount() {
+        return borrowedBooksCount;
     }
 
-    public void setJumlahDenda(int d) {
-        jumlahDenda = d;
+    public int getLateReturnsCount() {
+        return lateReturnsCount;
     }
 
-    public String getTingkatKeanggotaan() {
-        return tingkatKeanggotaan;
+    public int getFineAmount() {
+        return fineAmount;
     }
 
-    public void setTingkatKeanggotaan(String t) {
-        tingkatKeanggotaan = t;
+    public int getLoyaltyPoints() {
+        return loyaltyPoints;
     }
 
-    public String getKodeReferal() {
-        return kodeReferal;
+    public String getReferralCode() {
+        return referralCode;
     }
 
-    public void setKodeReferal(String k) {
-        kodeReferal = k;
+    public boolean isNewsletterSubscribed() {
+        return isNewsletterSubscribed;
     }
 
-    public boolean getLanggananBuletin() {
-        return langgananBuletin;
+    // Setter methods only for mutable fields
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
-    public void setLanggananBuletin(boolean l) {
-        langgananBuletin = l;
+    public void setMembershipLevel(MembershipLevel level) {
+        this.membershipLevel = level;
+    }
+
+    public void setBorrowedBooksCount(int count) {
+        this.borrowedBooksCount = count;
+    }
+
+    public void setLateReturnsCount(int count) {
+        this.lateReturnsCount = count;
+    }
+
+    public void setFineAmount(int amount) {
+        this.fineAmount = amount;
+    }
+
+    public void setLoyaltyPoints(int points) {
+        this.loyaltyPoints = points;
+    }
+
+    public void setReferralCode(String code) {
+        this.referralCode = code;
+    }
+
+    public void setNewsletterSubscribed(boolean subscribed) {
+        this.isNewsletterSubscribed = subscribed;
     }
 }

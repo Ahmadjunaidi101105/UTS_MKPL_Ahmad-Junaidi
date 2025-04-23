@@ -13,25 +13,28 @@ public final class LibraryMember {
     private final String referralCode;
     private final boolean isNewsletterSubscribed;
 
-    // Hanya bisa dibuat via Builder
-    private LibraryMember(Builder builder) {
-        this.personalInfo = builder.personalInfo;
-        this.memberId = builder.memberId;
-        this.joinDate = builder.joinDate;
-        this.membershipLevel = builder.membershipLevel;
-        this.isActive = builder.isActive;
-        this.borrowedBooksCount = builder.borrowedBooksCount;
-        this.lateReturnsCount = builder.lateReturnsCount;
-        this.fineAmount = builder.fineAmount;
-        this.loyaltyPoints = builder.loyaltyPoints;
-        this.referralCode = builder.referralCode;
-        this.isNewsletterSubscribed = builder.isNewsletterSubscribed;
+    // Package-private constructor, hanya bisa diakses oleh Builder
+    LibraryMember(PersonalInfo personalInfo, String memberId, Date joinDate, 
+                MembershipLevel membershipLevel, boolean isActive, int borrowedBooksCount,
+                int lateReturnsCount, int fineAmount, int loyaltyPoints,
+                String referralCode, boolean isNewsletterSubscribed) {
+        this.personalInfo = personalInfo;
+        this.memberId = memberId;
+        this.joinDate = new Date(joinDate.getTime()); // Defensive copy
+        this.membershipLevel = membershipLevel;
+        this.isActive = isActive;
+        this.borrowedBooksCount = borrowedBooksCount;
+        this.lateReturnsCount = lateReturnsCount;
+        this.fineAmount = fineAmount;
+        this.loyaltyPoints = loyaltyPoints;
+        this.referralCode = referralCode;
+        this.isNewsletterSubscribed = isNewsletterSubscribed;
     }
 
-    // Getter methods (tanpa setter, karena immutable)
+    // Getter methods
     public PersonalInfo getPersonalInfo() { return personalInfo; }
     public String getMemberId() { return memberId; }
-    public Date getJoinDate() { return new Date(joinDate.getTime()); }
+    public Date getJoinDate() { return new Date(joinDate.getTime()); } // Defensive copy
     public MembershipLevel getMembershipLevel() { return membershipLevel; }
     public boolean isActive() { return isActive; }
     public int getBorrowedBooksCount() { return borrowedBooksCount; }
@@ -40,47 +43,4 @@ public final class LibraryMember {
     public int getLoyaltyPoints() { return loyaltyPoints; }
     public String getReferralCode() { return referralCode; }
     public boolean isNewsletterSubscribed() { return isNewsletterSubscribed; }
-
-    // Builder Class
-    public static class Builder {
-        private final PersonalInfo personalInfo;
-        private final String memberId;
-        private Date joinDate;
-        private MembershipLevel membershipLevel = MembershipLevel.BASIC;
-        private boolean isActive = true;
-        private int borrowedBooksCount = 0;
-        private int lateReturnsCount = 0;
-        private int fineAmount = 0;
-        private int loyaltyPoints = 0;
-        private String referralCode = "";
-        private boolean isNewsletterSubscribed = false;
-
-        public Builder(PersonalInfo personalInfo, String memberId) {
-            this.personalInfo = personalInfo;
-            this.memberId = memberId;
-            this.joinDate = new Date(); // Default: tanggal sekarang
-        }
-
-        public Builder joinDate(Date joinDate) {
-            this.joinDate = new Date(joinDate.getTime());
-            return this;
-        }
-
-        public Builder membershipLevel(MembershipLevel level) {
-            this.membershipLevel = level;
-            return this;
-        }
-
-        // Method chaining untuk atribut lainnya...
-        public Builder isActive(boolean isActive) { /* ... */ return this; }
-        public Builder borrowedBooksCount(int count) { /* ... */ return this; }
-
-        public LibraryMember build() {
-            // Validasi sebelum membuat objek
-            if (memberId == null || memberId.isEmpty()) {
-                throw new IllegalArgumentException("Member ID tidak boleh kosong");
-            }
-            return new LibraryMember(this);
-        }
-    }
 }
